@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:cocoa_beans",
+    "minecraft:cocoa_beans",
+    "#hemp-craft-justfatlard:flowers",
+    "minecraft:wheat",
+    "minecraft:wheat",
+    "minecraft:wheat",
+    "minecraft:sugar",
+    "#minecraft:eggs",
+    "minecraft:milk_bucket"
+  ],
+  "result": {
+    "count": 9,
+    "id": "hemp-craft-justfatlard:brownie"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "hemp-craft-justfatlard:indica_flower",
+    "minecraft:paper"
+  ],
+  "result": {
+    "id": "hemp-craft-justfatlard:indica_joint"
+  }
+}
