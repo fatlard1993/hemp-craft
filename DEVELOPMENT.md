@@ -24,12 +24,10 @@ models, so a plant is only ever one block wide in the world. Each block stands o
 it up stands, so breaking the root takes the whole plant. A plant only grows into air or into blocks
 it placed itself, so two plants never fight over a block.
 
-Thinning is a secret players find for themselves: shears on a clump from its third stage
-(`HempCropBlock.TRIM_FROM`) until it grows lanky swap it for a single `hemp_root` that carries on the
-clump's record. The record keeps its age at thinning (`ThinnedAt`), so the single starts at the kept
-seedling's height and catches up with a plant grown single from seed over the next few days
-(`PlantShape.height`); a plant saved without it is taken as never thinned. The README only hints at it, and `HempPlant.status` never tells a clump from a
-thinned plant or mentions shears; keep both that way.
+Thinning - what a clump does under shears while it is young - is the one thing a player is meant to
+find rather than read, so it is written down beside the code that does it (`HempCropBlock`) and
+nowhere else. The readme only hints, and `HempPlant.status` never tells a clump from a thinned plant
+or mentions shears; keep all three that way.
 
 ## Models and art
 

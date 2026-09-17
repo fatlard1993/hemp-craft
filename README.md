@@ -1,16 +1,14 @@
 # Hemp Craft
 
-A Minecraft Fabric mod that adds hemp as a plant you grow, shape and breed: let it grow wild for
-fibre and seed, or learn the growers' knack that turns a clump of seedlings into a single branching
-indica, sativa or hybrid, raised through its days and nights to full size.
+A Minecraft Fabric mod that adds hemp: a fibre crop you grow, shape and breed. Indica, sativa and
+the hybrid of the two, grown from seed on farmland through their own days and nights, and cut for
+the fibre that makes rope, string and paper.
 
 ## Screenshots
 
-![A bed gone to flower: a clump grown wild, then a hybrid, a sativa and an indica](img.png)
-![Hybrid and sativa, branching from every node with buds at every tip](img2.png)
-![A clump gone to seed, its stems crowded with pods](img3.png)
-![A clump of seedlings, and what a grower makes of one](img4.png)
-![A small sativa forced into flower under a fast lamp](img6.png)
+![A bed of hemp grown lanky and gone to seed, rows of it standing ready to cut](field.png)
+![Wild hemp in a patch on open grass](wild.png)
+![Hemp rope hanging from a beam at the lip of a bank, down the face to the ground](rope.png)
 
 ## The Three Strains
 
@@ -39,10 +37,6 @@ lanky, the way hemp grows wild: a tangle of thin stems in its strain's manner (i
 crowded, sativa's tall and whippy, two blocks high) that flowers small and seedy, in sprigs of pods
 up the tops of its stems. At the last stage the pods explode into growth.
 
-The tall branching plants in the screenshots are not grown that way. Growers who raise them do
-something to the clump while it is young, and the window is short. What they do, they keep to
-themselves.
-
 **Light and dark.** A plant counts its age in cycles, each a spell of real light followed by a spell
 of real darkness, a minute or more of each. A natural day and night make one cycle. Ten cycles of
 growth, and it flowers for five more.
@@ -55,8 +49,7 @@ growth, and it flowers for five more.
   the first ten days' worth, then slower and slower, as big as you have the patience for. Lamps on a
   daylight sensor let you choose when it flips.
 - A lamp on a fast timer makes a cycle every couple of minutes. That forces a plant into flower
-  while it is still small: a quick, short plant with a small crop, where a natural season grows a
-  big one.
+  while it is still small: a quick, short plant where a natural season grows a big one.
 - Sleeping through the night counts as the night. Time the plant's chunk spent unloaded does not.
   A plant grows under lamps whether or not the world's day moves.
 
@@ -82,16 +75,15 @@ plant, or a clump gone to seed, takes no more.
 Break a plant's root, the block on the farmland, to harvest all of it. What it gives depends on how
 it was grown.
 
-**A clump grown lanky** is the fibre and seed crop, and that is all it is. Its raw hemp, the fibre
-for string and paper, peaks the stage before it goes to seed, while its pods are still small: that
-is the most fibre hemp gives. Let it go to seed and the fibre falls away, but it gives seed by the
-handful. It never gives a flower.
+**A clump grown lanky** is the fibre and seed crop. Its raw hemp, the fibre for string and paper,
+peaks the stage before it goes to seed, while its pods are still small: that is the most fibre hemp
+gives. Let it go to seed and the fibre falls away, but it gives seed by the handful.
 
-**A single stalk** gives a little fibre from the stalk, seed only rarely, and flowers of its own
-strain: as many as its size and ripeness carry, a forced small plant a few and a full season's many.
+**A single stalk**, the plant grown on rather than cut as a crop, gives a stalk's worth of fibre
+and seed only rarely.
 
-**Wild hemp** gives a little fibre and a seed or two of its strain, and no flower: a patch on a
-hillside has had nobody near it. Any plant cut before it flowered gives back the seed it came from.
+**Wild hemp** gives a little fibre and a seed or two of its strain. Any plant cut before it
+flowered gives back the seed it came from.
 
 A plant that flowers within twelve blocks of another strain in flower at the same time catches its
 pollen, and half the seed it drops is hybrid: an indica beside a sativa, or either beside a hybrid.

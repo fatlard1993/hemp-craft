@@ -25,6 +25,21 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public class HempCropBlock extends HempBaseBlock {
 
+	/**
+	 * The stage from which shears thin a clump, and the whole of the knack.
+	 *
+	 * <p>Shears on a clump from this stage until it grows lanky swap it for a single
+	 * {@code hemp_root} carrying on the clump's record. The record keeps its age at thinning
+	 * ({@code ThinnedAt}), so the single starts at the kept seedling's height and catches up with
+	 * a plant grown single from seed over the next few days ({@code PlantShape.height}); a plant
+	 * saved without it is taken as never thinned. Flowers come only this way, which is what makes
+	 * it worth finding.
+	 *
+	 * <p>This is the one part of the mod a player is meant to find rather than read. It is written
+	 * here and nowhere else: the readme only hints at it, DEVELOPMENT.md points here instead of
+	 * repeating it, and {@link HempPlant#status} never tells a clump from a thinned plant or
+	 * mentions shears. Keep all three that way.
+	 */
 	private static final int TRIM_FROM = 2;
 
 	public HempCropBlock(Properties properties) {
