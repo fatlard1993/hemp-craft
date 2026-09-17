@@ -50,21 +50,6 @@ stems in one go so both take the same variant; an untrimmed crop's two blocks sh
 genome for the same reason. Their stems are laid out per strain and variant in `LANKY` and
 `lanky_layout` in the model script.
 
-A joint's puff is a vanilla eat as far as any client knows (`JointItem`): food and a use
-animation are what Pandorical tells a client's stand-in about an item, so the joint carries an
-always-edible food of no nutrition and a twelve-second eating time, and the server ends each puff
-after two seconds, before a client would start its chewing bob, its eating sounds and crumbs, or
-eat it. Lit is damaged, and the item definition picks its look by damage, so the burning down needs
-nothing on the client. While in use it picks a puff model instead (`joint_models` in the model
-script), whose first-person pose lays the joint at the lips under vanilla's eating transform; a
-handheld pose there would stand it upright in front of the face.
-
-The smoke off the lit end is sent to each player separately, because each sees the joint somewhere
-else: the smoker in first person, everyone else in the hand of the player model. `JointItem.HELD`,
-`PUFF` and `MODEL` are where the crutch and lit end sit in each, worked out from vanilla's hand
-transforms and the item models' display transforms; change a display transform or the joint sprite
-and they move.
-
 Bone meal works on every piece of a plant (`HempPartBlock` is `BonemealableBlock`) and feeds the
 root's record. A client's stand-in is not a bone-mealable block, so it draws no sparkles; the server
 sends them.

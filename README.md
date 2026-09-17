@@ -92,10 +92,9 @@ plant a few and a full season's many, with a little fibre from the stalk and see
 Its flowers are the strain's own.
 
 **Wild hemp** gives a little fibre, a seed or two of its strain, and a flower perhaps one time in
-two hundred. Any
-plant cut before it flowered gives back the seed it came from.
+two hundred. Any plant cut before it flowered gives back the seed it came from.
 
-![Indica, sativa and hybrid flowers; indica, sativa and hybrid seeds; raw hemp; a joint, whole and lit; and a brownie](img7.png)
+![Indica, sativa and hybrid flowers; the seed of each; and raw hemp](img7.png)
 
 A plant that flowers within twelve blocks of another strain in flower at the same time catches its
 pollen, and half the seed it drops is hybrid: an indica beside a sativa, or either beside a hybrid.
@@ -119,28 +118,13 @@ lamp keeping it from flowering.
 |---|---|
 | 4 hemp, in a square | 3 paper |
 | 3 hemp, in a row | 2 string |
-| a strain's flower and paper | that strain's joint |
-| 2 cocoa beans, any flower, 3 wheat, sugar, an egg and milk | 9 brownies |
 
 The paper square fits the inventory's own crafting grid; the string row needs a crafting table. Both
-recipes unlock the first time you hold hemp. Brownies take the whole crafting grid, in any
-arrangement, and the milk leaves its bucket behind.
+recipes unlock the first time you hold hemp.
 
-A brownie is better food than a cookie, not as good as a pie, and gives three minutes of Luck.
-
-## Smoking
-
-Hold use with a joint to take a puff: you raise it to your lips the way you would food, the first
-puff lights it, and after a couple of seconds the smoke comes back out ahead of you. Once lit it
-burns down on its own, a little under two minutes if left alone and faster while you smoke it, its
-durability bar draining and the joint itself shortening from lit, to half, to a stub. A lit joint
-in either hand trails smoke from its lit end. Burnt out, it is gone.
-
-Every puff gives Luck and Hunger, the munchies: half a minute of Luck and ten seconds of Hunger for
-a full puff, less for one cut short, each puff adding to what is left, up to five minutes of Luck
-and a minute of Hunger.
-
-![A puff: the joint at the lips with smoke rising off its lit end, the exhale, and the joint back in hand, still smoking](img8.png)
+Fibre is what hemp is grown for here. What a flower is for, this page does not say: a grower who has
+raised one will work it out, and the ones who know are no more talkative about it than they are
+about the knack.
 
 ## Where It Grows Wild
 
