@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"key": {
+		"#": "hemp-craft-justfatlard:hemp"
+	},
+	"pattern": [
+		"##",
+		"##",
+		"##"
+	],
+	"result": {
+		"count": 6,
+		"id": "hemp-craft-justfatlard:rope"
+	}
+}

@@ -482,6 +482,38 @@ def hemp_bundle(pal):
     return sprite
 
 
+ROPE_CORE = (5, 11)
+
+
+def rope_braid(pal):
+    """A hank of hemp laid up into one thick cord.
+
+    Strands wound round a core six pixels wide - the width of the block model's own core - each a
+    band running corner to corner: a lit edge where the strand turns toward you, its body, the
+    shadow where it turns away, and the dark line of the lay between it and the next. Six rows to
+    a turn, which divides into sixteen unevenly on purpose: stacked ropes read as one long lay
+    rather than a repeat. The colour is wheat straw, not leaf - rope is retted fibre, dried.
+    """
+    left, right = ROPE_CORE
+    straw = tones("item/wheat.png", 6)
+    lit, body = straw[-1], straw[-2]
+    shade = mix(straw[-4], pal.stalk, 0.25)
+    lay = mix(straw[1], pal.shade, 0.35)
+
+    sprite = blank()
+    for y in range(16):
+        for x in range(left, right):
+            put(sprite, x, y, (lit, body, body, shade, shade, lay)[(y + x - left) % 6])
+        put(sprite, left - 1, y, shade if (y + 2) % 6 else lay)
+        put(sprite, right, y, shade if (y + 5) % 6 else lay)
+        # A few fibres standing proud of the lay, as every handled rope has.
+        if y % 7 == 3:
+            put(sprite, left - 2, y, shade)
+        if y % 7 == 6:
+            put(sprite, right + 1, y, shade)
+    return sprite
+
+
 def line(x0, y0, x1, y1):
     """Every pixel from one end to the other, Bresenham's way."""
     points = []
@@ -792,6 +824,7 @@ if __name__ == "__main__":
     pal = Palette()
     write_png(os.path.join(ASSETS, "textures/block/hemp_plant.png"), plant_sheet(pal))
     write_png(os.path.join(ASSETS, "textures/item/hemp.png"), hemp_bundle(pal))
+    write_png(os.path.join(ASSETS, "textures/block/rope.png"), rope_braid(pal))
     for strain in ("indica", "sativa", "hybrid"):
         write_png(os.path.join(ASSETS, "textures/item/%s_seeds.png" % strain), hemp_seeds(pal, strain))
         write_png(os.path.join(ASSETS, "textures/item/%s_flower.png" % strain), flower_item(pal, strain))

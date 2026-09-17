@@ -47,7 +47,13 @@ public class Main implements ModInitializer {
 		for (String name : new String[] {"hemp_root", "hemp_stalk", "hemp_stems", "wild_hemp"}) {
 			part(name, new BlockRegistration().baseBlock(STAND_IN));
 		}
-		for (String name : new String[] {"indica_seeds", "sativa_seeds", "hybrid_seeds", "hemp",
+		// Rope stands in as a weeping vine, the one vanilla block that hangs, is climbed and is
+		// walked through: a vanilla client climbs the rope it can see without being told anything.
+		part("rope", new BlockRegistration()
+			.baseBlock("minecraft:weeping_vines")
+			.strength(0.4F)
+			.model(MOD_ID + ":block/rope"));
+		for (String name : new String[] {"indica_seeds", "sativa_seeds", "hybrid_seeds", "hemp", "rope",
 				"indica_flower", "sativa_flower", "hybrid_flower", "indica_joint", "sativa_joint", "hybrid_joint",
 				"brownie"}) {
 			PandoricalApi.content().registerItem(MOD_ID + ":" + name,

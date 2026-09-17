@@ -290,7 +290,10 @@ public class HempPlant extends BlockEntity {
 		if (getBlockState().getBlock() instanceof HempCropBlock) {
 			fibre = blocks * LANKY_FIBRE[stage];
 			seeds = stage == 3 ? 4 + 5 * blocks : stage == 2 ? blocks : 1;
-			flowers = stage >= 2 && random.nextFloat() < 0.04F ? 1 : 0;
+			// A clump left to itself is the fibre and seed crop, and gives no flower at all. What
+			// a grower does to a young clump is the only way to a flower, which is the whole
+			// difference between a crop and a plant somebody raised.
+			flowers = 0;
 		} else {
 			fibre = blocks;
 			// A bud at every branch tip: the more plant, the more flower. A small plant forced into

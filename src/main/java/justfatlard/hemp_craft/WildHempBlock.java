@@ -35,16 +35,20 @@ public class WildHempBlock extends HempPartBlock {
 
 	/** Chance of a second seed: wild hemp is found, not farmed, so it starts a crop and no more. */
 	private static final float SECOND_SEED = 0.35F;
-	/** Chance of a flower: one plant in two hundred, a find rather than a harvest. */
-	private static final float FLOWER = 0.005F;
 
+	/**
+	 * Fibre and seed, and never a flower.
+	 *
+	 * <p>A plant left to grow as it likes does not make one. Hemp that flowers worth the name is
+	 * hemp somebody tended, and the tending is a thing a grower does to a clump while it is young;
+	 * a patch found on a hillside has had nobody near it.
+	 */
 	@Override
 	protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
 		RandomSource random = params.getLevel().getRandom();
 		Strain strain = state.getValue(HempProps.STRAIN);
 		ItemStack seeds = new ItemStack(strain.seeds(), random.nextFloat() < SECOND_SEED ? 2 : 1);
 		ItemStack fibre = new ItemStack(Hemp.HEMP, 2 + random.nextInt(2));
-		if (random.nextFloat() < FLOWER) return List.of(fibre, seeds, new ItemStack(strain.flower()));
 		return List.of(fibre, seeds);
 	}
 

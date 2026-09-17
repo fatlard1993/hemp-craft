@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.Items;
@@ -39,11 +40,32 @@ public final class Hemp {
 	public static final Block STEMS = block("hemp_stems", HempStemsBlock::new, false);
 	public static final Block WILD = block("wild_hemp", WildHempBlock::new, true);
 
+	/**
+	 * Rope, which is what hemp has always been for. Not a piece of the plant, so it is built on
+	 * its own footing: it takes a moment to cut down, it hangs rather than grows, and unlike
+	 * every other block here its item is its own id, because that item is meant to place it.
+	 */
+	public static final Block ROPE = Registry.register(BuiltInRegistries.BLOCK, blockKey("rope"),
+		new RopeBlock(BlockBehaviour.Properties.of()
+			.mapColor(MapColor.TERRACOTTA_YELLOW)
+			.noCollision()
+			.noOcclusion()
+			.strength(0.4F)
+			.sound(SoundType.WOOL)
+			.ignitedByLava()
+			.pushReaction(PushReaction.POPPED)
+			.noLootTable()
+			.setId(blockKey("rope"))));
+
 	public static final BlockEntityType<HempPlant> PLANT = new BlockEntityType<>(HempPlant::new, Set.of(CROP, ROOT));
 
 	public static final Item INDICA_SEEDS = seeds("indica_seeds", Strain.INDICA);
 	public static final Item SATIVA_SEEDS = seeds("sativa_seeds", Strain.SATIVA);
 	public static final Item HYBRID_SEEDS = seeds("hybrid_seeds", Strain.HYBRID);
+
+	public static final Item ROPE_ITEM = item("rope", new BlockItem(ROPE, new Item.Properties()
+		.setId(itemKey("rope"))
+		.useBlockDescriptionPrefix()));
 
 	public static final Item HEMP = item("hemp", new Item(new Item.Properties()
 		.setId(itemKey("hemp"))

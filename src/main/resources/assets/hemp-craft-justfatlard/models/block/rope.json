@@ -1,0 +1,77 @@
+{
+	"parent": "minecraft:block/block",
+	"textures": {
+		"rope": "hemp-craft-justfatlard:block/rope",
+		"particle": "hemp-craft-justfatlard:block/rope"
+	},
+	"elements": [
+		{
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				11,
+				16,
+				11
+			],
+			"faces": {
+				"north": {
+					"uv": [
+						5,
+						0,
+						11,
+						16
+					],
+					"texture": "#rope"
+				},
+				"south": {
+					"uv": [
+						5,
+						0,
+						11,
+						16
+					],
+					"texture": "#rope"
+				},
+				"west": {
+					"uv": [
+						5,
+						0,
+						11,
+						16
+					],
+					"texture": "#rope"
+				},
+				"east": {
+					"uv": [
+						5,
+						0,
+						11,
+						16
+					],
+					"texture": "#rope"
+				},
+				"up": {
+					"uv": [
+						5,
+						5,
+						11,
+						11
+					],
+					"texture": "#rope"
+				},
+				"down": {
+					"uv": [
+						5,
+						5,
+						11,
+						11
+					],
+					"texture": "#rope"
+				}
+			}
+		}
+	]
+}

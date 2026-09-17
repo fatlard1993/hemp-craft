@@ -2,7 +2,7 @@
 
 A Minecraft Fabric mod that adds hemp as a plant you grow, shape and breed: let it grow wild for
 fibre and seed, or learn the growers' knack that turns a clump of seedlings into a single branching
-indica, sativa or hybrid, raised through days and nights for its flowers.
+indica, sativa or hybrid, raised through its days and nights to full size.
 
 ## Screenshots
 
@@ -82,19 +82,16 @@ plant, or a clump gone to seed, takes no more.
 Break a plant's root, the block on the farmland, to harvest all of it. What it gives depends on how
 it was grown.
 
-**A clump grown lanky** is the fibre and seed crop. Its raw hemp, the fibre for string and paper,
-peaks the stage before it goes to seed, while its pods are still small: that is the most fibre
-hemp gives. Let it go to seed and the fibre falls away, but it gives seed by the handful. It
-almost never gives a flower.
+**A clump grown lanky** is the fibre and seed crop, and that is all it is. Its raw hemp, the fibre
+for string and paper, peaks the stage before it goes to seed, while its pods are still small: that
+is the most fibre hemp gives. Let it go to seed and the fibre falls away, but it gives seed by the
+handful. It never gives a flower.
 
-**A single stalk** grows for its flowers: as many as its size and ripeness carry, a forced small
-plant a few and a full season's many, with a little fibre from the stalk and seed only rarely.
-Its flowers are the strain's own.
+**A single stalk** gives a little fibre from the stalk, seed only rarely, and flowers of its own
+strain: as many as its size and ripeness carry, a forced small plant a few and a full season's many.
 
-**Wild hemp** gives a little fibre, a seed or two of its strain, and a flower perhaps one time in
-two hundred. Any plant cut before it flowered gives back the seed it came from.
-
-![Indica, sativa and hybrid flowers; the seed of each; and raw hemp](img7.png)
+**Wild hemp** gives a little fibre and a seed or two of its strain, and no flower: a patch on a
+hillside has had nobody near it. Any plant cut before it flowered gives back the seed it came from.
 
 A plant that flowers within twelve blocks of another strain in flower at the same time catches its
 pollen, and half the seed it drops is hybrid: an indica beside a sativa, or either beside a hybrid.
@@ -118,13 +115,15 @@ lamp keeping it from flowering.
 |---|---|
 | 4 hemp, in a square | 3 paper |
 | 3 hemp, in a row | 2 string |
+| 8 hemp, in a ring | a lead |
+| 6 hemp, two by three | 6 rope |
 
-The paper square fits the inventory's own crafting grid; the string row needs a crafting table. Both
-recipes unlock the first time you hold hemp.
+The paper square fits the inventory's own crafting grid; the rest need a crafting table. They all
+unlock the first time you hold hemp.
 
-Fibre is what hemp is grown for here. What a flower is for, this page does not say: a grower who has
-raised one will work it out, and the ones who know are no more talkative about it than they are
-about the knack.
+**Rope** hangs from whatever is above it, one thick braided cord down the middle of the block. You
+walk through it and you climb it, so a coil dropped down a shaft is a way back up. It hangs the way
+a chain does: from a solid face or from the rope above, and it comes down when its anchor does.
 
 ## Where It Grows Wild
 
