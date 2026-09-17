@@ -116,7 +116,7 @@ lamp keeping it from flowering.
 | 4 hemp, in a square | 3 paper |
 | 3 hemp, in a row | 2 string |
 | 8 hemp, in a ring | a lead |
-| 6 hemp, two by three | 6 rope |
+| 6 hemp, two by three | 3 rope |
 
 The paper square fits the inventory's own crafting grid; the rest need a crafting table. They all
 unlock the first time you hold hemp.
