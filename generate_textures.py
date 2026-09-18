@@ -488,29 +488,81 @@ ROPE_CORE = (5, 11)
 def rope_braid(pal):
     """A hank of hemp laid up into one thick cord.
 
-    Strands wound round a core six pixels wide - the width of the block model's own core - each a
-    band running corner to corner: a lit edge where the strand turns toward you, its body, the
-    shadow where it turns away, and the dark line of the lay between it and the next. Six rows to
-    a turn, which divides into sixteen unevenly on purpose: stacked ropes read as one long lay
-    rather than a repeat. The colour is wheat straw, not leaf - rope is retted fibre, dried.
+    Two things make a rope read as thick rather than as a striped stick, and the first is the more
+    important: the shading goes across the cord, not along it. Six pixels wide, lit from the upper
+    left, running dark at the left edge through a highlight a third of the way in to shadow at the
+    right - the same ramp a barrel or a log gets, which is what tells the eye it is round.
+
+    The lay sits on top of that as a dark line every fourth row rather than as bands filling the
+    whole face. Two rows to a pixel across makes it steep, which is how a laid rope looks close
+    up; bands at forty-five degrees are what makes one look like a barber's pole. Four rows to the
+    turn divides into sixteen exactly, so a rope hanging six blocks down is one unbroken lay
+    instead of six ropes stacked.
+
+    The colour is wheat straw, not leaf - rope is retted fibre, dried.
     """
     left, right = ROPE_CORE
+    width = right - left
     straw = tones("item/wheat.png", 6)
     lit, body = straw[-1], straw[-2]
-    shade = mix(straw[-4], pal.stalk, 0.25)
-    lay = mix(straw[1], pal.shade, 0.35)
+    mid = mix(straw[-1], straw[-3], 0.45)
+    shade = straw[-3]
+    edge = mix(straw[-4], straw[0], 0.35)
+    lay = mix(straw[-4], straw[0], 0.7)
+
+    # Across the cord, left to right: the round of it.
+    round_of_it = (mid, lit, body, body, shade, edge)
 
     sprite = blank()
     for y in range(16):
-        for x in range(left, right):
-            put(sprite, x, y, (lit, body, body, shade, shade, lay)[(y + x - left) % 6])
-        put(sprite, left - 1, y, shade if (y + 2) % 6 else lay)
-        put(sprite, right, y, shade if (y + 5) % 6 else lay)
-        # A few fibres standing proud of the lay, as every handled rope has.
-        if y % 7 == 3:
-            put(sprite, left - 2, y, shade)
-        if y % 7 == 6:
-            put(sprite, right + 1, y, shade)
+        # Where the lay crosses this row. Whole width in four rows, so it comes back to the same
+        # place every fourth row and a rope hanging any number of blocks is one lay.
+        start = (y * width) // 4
+        laid = {(start + step) % width for step in range(2)}
+        for across in range(width):
+            put(sprite, left + across, y, lay if across in laid else round_of_it[across])
+    return sprite
+
+
+def rope_coil(pal):
+    """A rope in the hand: coiled in a hank, the way one is carried rather than hung.
+
+    An item icon has one job, which is to be knowable at sixteen pixels in a hotbar, and a cord
+    drawn straight down is a stick at that size. A coil is unmistakably rope: a ring of it lit on
+    the same upper left as everything else here, with the lay reading round the ring, and a tie
+    where a coil is always tied.
+    """
+    straw = tones("item/wheat.png", 6)
+    lit, body = straw[-1], straw[-2]
+    shade = straw[-3]
+    edge = mix(straw[-4], straw[0], 0.35)
+    lay = mix(straw[-4], straw[0], 0.7)
+
+    cx, cy, rx, ry = 7.5, 8.5, 5.6, 4.8
+    sprite = blank()
+    for y in range(16):
+        for x in range(16):
+            # How far out of the ring's middle this pixel is, as a fraction of the ring itself.
+            out = ((x + 0.5 - cx) / rx) ** 2 + ((y + 0.5 - cy) / ry) ** 2
+            if not 0.30 <= out <= 1.0:
+                continue
+            # Lit where the coil turns up and to the left, shaded where it turns away, and dark
+            # where it turns right under: the ramp the cord itself wears, bent round.
+            toward = (cx - x) + (cy - y)
+            px = lit if toward > 4 else body if toward > 0 else shade if toward > -4 else edge
+            # The lay, a mark every third pixel round the ring rather than a stripe across the
+            # sprite: enough to say twisted, too few to eat the shape at sixteen pixels.
+            if (x + y) % 3 == 0 and 0.42 <= out <= 0.92:
+                px = lay
+            put(sprite, x, y, px)
+
+    # The tie: one turn of the same cord round the coil, which is what stops it being a doughnut.
+    for y in range(5, 12):
+        out = ((6.5 - cx) / rx) ** 2 + ((y + 0.5 - cy) / ry) ** 2
+        if out > 1.0:
+            continue
+        put(sprite, 6, y, lay)
+        put(sprite, 7, y, body if y % 2 else lit)
     return sprite
 
 
@@ -825,6 +877,7 @@ if __name__ == "__main__":
     write_png(os.path.join(ASSETS, "textures/block/hemp_plant.png"), plant_sheet(pal))
     write_png(os.path.join(ASSETS, "textures/item/hemp.png"), hemp_bundle(pal))
     write_png(os.path.join(ASSETS, "textures/block/rope.png"), rope_braid(pal))
+    write_png(os.path.join(ASSETS, "textures/item/rope.png"), rope_coil(pal))
     for strain in ("indica", "sativa", "hybrid"):
         write_png(os.path.join(ASSETS, "textures/item/%s_seeds.png" % strain), hemp_seeds(pal, strain))
         write_png(os.path.join(ASSETS, "textures/item/%s_flower.png" % strain), flower_item(pal, strain))
