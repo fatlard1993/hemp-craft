@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:husbandry/plant_seed",
+  "display": {
+    "icon": {
+      "id": "hemp-craft-justfatlard:hybrid_seeds"
+    },
+    "title": "Crossed",
+    "description": "Flower two strains together and take the seed it gives",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "hybrid_seed": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "hemp-craft-justfatlard:hybrid_seeds"
+          }
+        ]
+      }
+    }
+  }
+}
