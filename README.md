@@ -37,9 +37,9 @@ lanky, the way hemp grows wild: a tangle of thin stems in its strain's manner (i
 crowded, sativa's tall and whippy, two blocks high) that flowers small and seedy, in sprigs of pods
 up the tops of its stems. At the last stage the pods explode into growth.
 
-**Light and dark.** A plant counts its age in cycles, each a spell of real light followed by a spell
-of real darkness, a minute or more of each. A natural day and night make one cycle. Ten cycles of
-growth, and it flowers for five more.
+**Light and dark.** A single stalk counts its age in cycles, each a spell of real light followed by
+a spell of real darkness, a minute or more of each. A natural day and night make one cycle. Ten
+cycles of growth, and it flowers for five more.
 
 - Light is the sun, or a lamp: a plant in an underground room under lamps gets its days.
 - Dark is an open night, or a room with the lamps off. Some light at night is fine: a torch four
@@ -52,6 +52,10 @@ growth, and it flowers for five more.
   while it is still small: a quick, short plant where a natural season grows a big one.
 - Sleeping through the night counts as the night. Time the plant's chunk spent unloaded does not.
   A plant grows under lamps whether or not the world's day moves.
+- None of this reaches a clump left to itself. A crop counts no cycles and waits on no night: it
+  runs on its days of light and goes to seed on its own time, under a lamp all night or out in the
+  open, however the field is lit. It still wants light to grow by - nothing grows in the dark - it
+  simply never waits for the dark. Timing the nights is the business of a plant somebody raised.
 
 **Flowering.** The first day and a half the plant stretches, sativa most of all. Then buds set,
 small and spiky, and form and fill out over the rest of the five days while the plant keeps
@@ -89,14 +93,21 @@ A plant that flowers within twelve blocks of another strain in flower at the sam
 pollen, and half the seed it drops is hybrid: an indica beside a sativa, or either beside a hybrid.
 Hybrid seed breeds hybrid, whatever it grew beside.
 
+With [useful-hoe](https://github.com/fatlard1993/useful-hoe) installed, a hoe sweeps a field the
+same way a hand does, root and all: it takes the plants that are done, ripe or gone to seed, and
+passes over the ones still growing - a clump at its most fibre among them, which is yours to judge
+and cut yourself.
+
 Hemp seeds feed chickens and parrots, and seeds and hemp both go in a composter.
 
 ## On the Block Tip
 
 With [block-tip](https://github.com/fatlard1993/block-tip) installed, looking at any piece of a plant
-names its strain and says where it is: which cycle it is on, which day of flowering, whether it
-has caught another strain's pollen, when it is at its most fibre, when it has gone to seed, and when
-it is ripe. A plant that has gone two days without a real night says so, which is how you find the
+names its strain and says where it is: which day it is on, which day of flowering, whether it has
+caught another strain's pollen, when it is at its most fibre, when it has gone to seed, and when it
+is ripe. The green bar along the bottom of the card fills as it grows, the way it does for wheat,
+and is full when the plant is ready to cut; any piece of a plant reads the same, since they are all
+the one plant. A plant that has gone two days without a real night says so, which is how you find the
 lamp keeping it from flowering.
 
 ![Block-tip lines for seedlings, a growing plant, a plant held growing by a lamp, and a ripe one](img5.png)

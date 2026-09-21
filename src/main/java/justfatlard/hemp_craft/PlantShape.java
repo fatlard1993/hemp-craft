@@ -25,6 +25,10 @@ final class PlantShape {
 	/** How gently growth tails off past the vegetative days: the log curve's scale, in days. */
 	private static final float TAPER = 4.0F;
 	private static final float LANKY_DAYS = 6.0F;
+	/** Days of light a full-grown tangle takes to set its pods, and as long again to go to seed. */
+	private static final float POD_DAYS = 1.4F;
+	/** Days of light from sowing to an untrimmed planting gone to seed. */
+	static final float SEED_DAYS = HempPlant.CLUSTER_DAYS + LANKY_DAYS + 2.0F * POD_DAYS;
 	/** Pixels high the clump's seedlings stand at each of its stages, as its models draw them. */
 	private static final int[] SEEDLING_PX = {1, 3, 5, 7};
 	/** Days over which a thinned seedling closes on the height of a plant grown single from seed. */
@@ -150,8 +154,21 @@ final class PlantShape {
 		return Math.min(3, (int) (days / (HempPlant.CLUSTER_DAYS / 4)));
 	}
 
+	/**
+	 * How far an untrimmed planting is into its seed, by days of light and nothing else: it fills
+	 * out, sets small seedy flowers along its tops, gives its most fibre while the pods are still
+	 * small, and goes to seed. A crop left standing keeps no cycles and waits on no night - the
+	 * nights are for the plant somebody raised.
+	 */
+	static int clumpBuds(float days) {
+		float since = days - HempPlant.CLUSTER_DAYS - LANKY_DAYS;
+		if (since < 0.0F) return 0;
+		return Math.min(3, 1 + (int) (since / POD_DAYS));
+	}
+
 	/** None through the stretch, then spiky, forming, and full by the end of the fifth day. */
 	static int budStage(HempPlant plant) {
+		if (plant.untrimmed()) return clumpBuds(plant.vegDays());
 		if (!plant.flowering) return 0;
 		float flower = plant.flowerDays();
 		if (flower < 1.0F) return 0;

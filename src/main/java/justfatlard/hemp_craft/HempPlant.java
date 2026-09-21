@@ -22,11 +22,17 @@ import net.minecraft.world.level.storage.ValueOutput;
 /**
  * One hemp plant: the record its root keeps, and the clock it grows by.
  *
- * <p>The plant counts days the way a real one does, by light and dark. A cycle is a stretch of
- * real light followed by real darkness; lamps left burning at night spoil the dark half, and the
- * cycle does not count. Ten cycles of vegetative growth and it flowers for five more. Kept from
- * the dark, it never flips: it goes on growing on its daylight alone, ever slower, as big as
- * patience allows. What it looks like at any moment is {@link PlantShape}'s to say.
+ * <p>A plant somebody raised counts days the way a real one does, by light and dark. A cycle is a
+ * stretch of real light followed by real darkness; lamps left burning at night spoil the dark half,
+ * and the cycle does not count. Ten cycles of vegetative growth and it flowers for five more. Kept
+ * from the dark, it never flips: it goes on growing on its daylight alone, ever slower, as big as
+ * patience allows.
+ *
+ * <p>A crop left untrimmed counts none of that. It runs on its days of light alone and goes to
+ * seed on its own schedule, whatever the nights are doing, because the photoperiod is the knack of
+ * raising a plant and a weed in a field is nobody's project. It still wants light to grow by; it
+ * simply never waits on a night. What either looks like at any moment is {@link PlantShape}'s to
+ * say.
  */
 public class HempPlant extends BlockEntity {
 
@@ -93,6 +99,23 @@ public class HempPlant extends BlockEntity {
 		return getBlockState().getValue(HempProps.STRAIN);
 	}
 
+	/** Whether this is a planting nobody thinned: the crop, on its days of light and no schedule. */
+	boolean untrimmed() {
+		return getBlockState().getBlock() instanceof HempCropBlock;
+	}
+
+	/**
+	 * Whether it is in flower now, which is both halves of crossing: a plant shedding pollen is a
+	 * plant that can catch it. A crop's window is its pods setting, up to the seed being made.
+	 */
+	private boolean shedding() {
+		if (untrimmed()) {
+			int stage = PlantShape.budStage(this);
+			return stage >= 1 && stage < 3;
+		}
+		return flowering && flowerDays() < FLOWER_CYCLES;
+	}
+
 	/** Days of light grown while vegetative; frozen once the plant flowers. */
 	float vegDays() {
 		return vegLight / LIGHT_PER_DAY;
@@ -106,8 +129,26 @@ public class HempPlant extends BlockEntity {
 	/** Flowering cycles done, with the one under way counted in part. */
 	float flowerDays() {
 		if (!flowering) return 0.0F;
-		float partial = Math.min(1.0F, Math.min(lightTicks / (float) CYCLE_LIGHT, darkTicks / (float) CYCLE_DARK));
-		return Math.min(FLOWER_CYCLES, flowerCycles + partial);
+		return Math.min(FLOWER_CYCLES, flowerCycles + cyclePart());
+	}
+
+	/** How much of the cycle under way is done: its light or its dark, whichever is further behind. */
+	private float cyclePart() {
+		return Math.min(1.0F, Math.min(lightTicks / (float) CYCLE_LIGHT, darkTicks / (float) CYCLE_DARK));
+	}
+
+	/**
+	 * How far it has come from sown to ready, as a fraction, for the growth bar on a block tip.
+	 *
+	 * <p>Ready is what a player is waiting for rather than the end of the plant's life: a crop is
+	 * done when it has gone to seed, and a plant somebody raised when it is ripe. A plant held from
+	 * its nights sits short of full and stays there, which is the truth about it - it is not going
+	 * to finish until it gets a night.
+	 */
+	public float grown() {
+		if (untrimmed()) return Math.min(1.0F, vegDays() / PlantShape.SEED_DAYS);
+		float days = flowering ? VEG_CYCLES + flowerDays() : Math.min(VEG_CYCLES, cycles + cyclePart());
+		return Math.min(1.0F, days / (VEG_CYCLES + FLOWER_CYCLES));
 	}
 
 	/** How strongly this one grows against the rest of its strain, from 0.9 to 1.1. */
@@ -127,7 +168,7 @@ public class HempPlant extends BlockEntity {
 		if (Math.floorMod(server.getGameTime() + pos.asLong(), SAMPLE_TICKS) != 0) return;
 		if (genome == 0) sow(server.getRandom().nextLong());
 		sample(server, pos);
-		if (flowering && flowerDays() < FLOWER_CYCLES) pollen |= Pollen.shed(server, pos, strain());
+		if (shedding()) pollen |= Pollen.shed(server, pos, strain());
 		grow(server, pos);
 		setChanged();
 	}
@@ -179,6 +220,10 @@ public class HempPlant extends BlockEntity {
 	}
 
 	private void credit(long light, long dark) {
+		boolean untrimmed = untrimmed();
+		// A crop left standing does not flower on a schedule, so a world saved before that was so
+		// drops the flag here and picks its days back up where they stopped.
+		if (untrimmed && flowering) flowering = false;
 		if (!flowering) vegLight += light;
 		lightSinceCycle += light;
 		lightTicks = (int) Math.min(Integer.MAX_VALUE / 2, lightTicks + light);
@@ -191,7 +236,9 @@ public class HempPlant extends BlockEntity {
 			lightSinceCycle = 0;
 			if (flowering) {
 				flowerCycles = Math.min(FLOWER_CYCLES, flowerCycles + 1);
-			} else if (++cycles >= VEG_CYCLES) {
+			} else if (++cycles >= VEG_CYCLES && !untrimmed) {
+				// The cycles are still counted while it is a clump, so one thinned young hands the
+				// plant it becomes the days it has already lived; they simply flip nothing.
 				flowering = true;
 			}
 		}
@@ -231,8 +278,8 @@ public class HempPlant extends BlockEntity {
 	 * not a ripe plant or an untrimmed one gone to seed.
 	 */
 	boolean canFeed() {
+		if (untrimmed()) return PlantShape.budStage(this) < 3;
 		if (!flowering) return true;
-		if (getBlockState().getBlock() instanceof HempCropBlock) return PlantShape.budStage(this) < 3;
 		return flowerCycles < FLOWER_CYCLES;
 	}
 
@@ -287,9 +334,11 @@ public class HempPlant extends BlockEntity {
 		int fibre;
 		int seeds;
 		int flowers;
-		if (getBlockState().getBlock() instanceof HempCropBlock) {
+		if (untrimmed()) {
 			fibre = blocks * LANKY_FIBRE[stage];
-			seeds = stage == 3 ? 4 + 5 * blocks : stage == 2 ? blocks : 1;
+			// A handful, not a harvest's worth: enough to plant back more than was sown and to
+			// spare a few, and not so many that one plant seeds a field.
+			seeds = stage == 3 ? 2 + blocks : 1;
 			// A clump left to itself is the fibre and seed crop, and gives no flower at all. What
 			// a grower does to a young clump is the only way to a flower, which is the whole
 			// difference between a crop and a plant somebody raised.
@@ -358,25 +407,31 @@ public class HempPlant extends BlockEntity {
 	 * is left for players to find: nothing here tells a clump from a thinned plant, or says shears.
 	 */
 	public String status(Level level) {
-		BlockState base = getBlockState();
-		boolean clump = base.getBlock() instanceof HempCropBlock;
+		boolean clump = untrimmed();
 		if (isSeedling()) return "Coming up";
 		Strain strain = strain();
 		boolean crossed = strain != Strain.HYBRID && (pollen & ~(1 << strain.ordinal())) != 0;
 		int stage = PlantShape.budStage(this);
-		if (clump && stage == 3) return crossed ? "Gone to seed, crossed: break the root" : "Gone to seed: break the root";
-		if (flowering && flowerCycles >= FLOWER_CYCLES) {
-			return crossed ? "Ripe and crossed: break the root" : "Ripe: break the root";
-		}
+		if (clump && stage == 3) return crossed ? "Gone to seed, crossed" : "Gone to seed";
+		if (flowering && flowerCycles >= FLOWER_CYCLES) return crossed ? "Ripe and crossed" : "Ripe";
 		if (clump && stage == 2) return "Most fibre now, or wait for seed";
-		if (lightSinceCycle > HELD_LIGHT) return flowering ? "No real night: flowering paused" : "No real night: held growing";
+		// Only a plant somebody raised is waiting on a night, so only that one is being held from it.
+		if (!clump && lightSinceCycle > HELD_LIGHT) {
+			return flowering ? "No real night: flowering paused" : "No real night: held growing";
+		}
 		if (level.isBrightOutside() && level.getRawBrightness(worldPosition, level.getSkyDarken()) < LIGHT_LEVEL) {
 			return "Too dim to grow";
 		}
 		if (flowering) {
 			return "Flowering, day " + (flowerCycles + 1) + " of " + FLOWER_CYCLES + (crossed ? ", crossed" : "");
 		}
-		return "Growing, cycle " + (cycles + 1) + " of " + VEG_CYCLES;
+		if (clump) {
+			int day = Math.min((int) PlantShape.SEED_DAYS, (int) vegDays() + 1);
+			return "Growing, day " + day + " of " + (int) PlantShape.SEED_DAYS;
+		}
+		// A cycle is this plant's day, and saying "day" for both is what keeps the card from
+		// telling a clump from a plant that was thinned out of one.
+		return "Growing, day " + (cycles + 1) + " of " + VEG_CYCLES;
 	}
 
 	/** Still a clump of seedlings, not yet thinned and not yet grown lanky. */

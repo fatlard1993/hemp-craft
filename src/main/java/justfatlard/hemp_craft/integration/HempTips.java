@@ -9,9 +9,9 @@ import justfatlard.hemp_craft.WildHempBlock;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 /**
- * A hemp plant on the block tip: its strain as the card's name, and where it is in its life as
- * the line, from any piece of it. A plant's clock is otherwise invisible, and a lamp holding it
- * from its nights would look like a plant that simply never flowers.
+ * A hemp plant on the block tip: its strain as the card's name, where it is in its life as the
+ * line, and how far along it is as the bar. A plant's clock is otherwise invisible, and a lamp
+ * holding it from its nights would look like a plant that simply never flowers.
  *
  * <p>Only loaded when block-tip is here: this class imports its API, and a class that mentions a
  * missing one cannot be loaded.
@@ -33,6 +33,16 @@ public final class HempTips {
 			}
 			HempPlant plant = HempPlant.rootOf(level, pos);
 			return strain + (plant != null && plant.isSeedling() ? " Seedlings" : " Hemp");
+		});
+
+		// The plant's days, where every other crop in the game has an age property. Asked from any
+		// piece of it, so a stalk fills the bar the same as the root it stands on.
+		BlockTipApi.growth((level, pos, state, player) -> {
+			if (!(state.getBlock() instanceof HempPartBlock) || state.getBlock() instanceof WildHempBlock) {
+				return -1.0F;
+			}
+			HempPlant plant = HempPlant.rootOf(level, pos);
+			return plant == null ? -1.0F : plant.grown();
 		});
 
 		BlockTipApi.illustrate((level, pos, state, player) -> {

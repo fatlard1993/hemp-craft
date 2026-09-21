@@ -24,6 +24,16 @@ models, so a plant is only ever one block wide in the world. Each block stands o
 it up stands, so breaking the root takes the whole plant. A plant only grows into air or into blocks
 it placed itself, so two plants never fight over a block.
 
+There are two clocks, and which one a plant runs on is its form. A single stalk runs on cycles: a
+spell of light and a spell of dark, ten of them and it flowers for five more, which is what the
+lamp tricks play with. A clump nobody thinned runs on `vegLight` alone - days of light, no cycles,
+no nights - and `PlantShape.clumpBuds` reads its seed stage straight off those days, so a crop
+standing in a lit field still goes to seed. `credit` is where the two part: an untrimmed plant is
+never flipped into flower, and one saved as flowering (from before this was so) has the flag
+dropped and its days resume. It still counts cycles while it is a clump, so a clump thinned young
+hands the plant it becomes the days it has already lived. Its pollen window is its pods setting
+rather than its flowering, which is `HempPlant.shedding`.
+
 Thinning - what a clump does under shears while it is young - is the one thing a player is meant to
 find rather than read, so it is written down beside the code that does it (`HempCropBlock`) and
 nowhere else. The readme only hints, and `HempPlant.status` never tells a clump from a thinned plant
@@ -52,8 +62,19 @@ Bone meal works on every piece of a plant (`HempPartBlock` is `BonemealableBlock
 root's record. A client's stand-in is not a bone-mealable block, so it draws no sparkles; the server
 sends them.
 
-Block-tip is optional: `integration/HempTips` reads `HempPlant.status` and loads only when block-tip
-is installed. For a dev server that shows the tips, drop block-tip's jar into `run/mods`.
+Block-tip is optional: `integration/HempTips` reads `HempPlant.status` for the card's line and
+`HempPlant.grown` for its growth bar, and loads only when block-tip is installed. The bar is a
+fraction of the way from sown to ready, which is gone to seed for a crop and ripe for a plant
+somebody raised; block-tip reads every other crop's off an age property, and hemp has none to read,
+so it answers through `BlockTipApi.growth`. That hook landed in block-tip 1.1.0, which is why
+`fabric.mod.json` carries a `breaks` floor as well as the suggestion. For a dev server that shows
+the tips, drop block-tip's jar into `run/mods`.
+
+Useful-hoe is optional too, and takes no code: `data/useful-hoe/tags/block/harvested_whole.json`
+puts `hemp_crop` and `hemp_root` in the tag of crops it takes whole, and it reads a plant's
+readiness off `isValidBonemealTarget`, which `HempPlant.canFeed` makes false exactly when a plant is
+ripe or a clump has gone to seed. So the hoe harvests on the same terms bone meal stops working on,
+and a clump at its most fibre it leaves standing. The tag is inert when useful-hoe is absent.
 
 `generate_textures.py` draws the 32x32 sheet those parts are cut from, and owns its layout, which the
 model script imports. It also draws the item sprites and the icon, every colour read out of the
