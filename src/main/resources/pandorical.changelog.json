@@ -4,15 +4,23 @@
   ],
   "versions": {
     "1.0.3": [
-      "A clump left to itself runs on its days of light and waits on no night, so a field lit however you like still goes to seed; counting nights is the business of a plant somebody raised.",
-      "Crossing two strains and taking the hybrid seed earns an advancement, a hoe sweeps a field with useful-hoe installed, taking what is done and leaving what is still growing, and the block tip fills a green bar as a plant grows."
+      "A clump left to itself runs on its days of light and waits on no night.",
+      "A field lit however you like still goes to seed.",
+      "Counting nights is the business of a plant somebody raised.",
+      "Crossing two strains and taking the hybrid seed earns an advancement.",
+      "A hoe sweeps a field with Useful Hoe installed, taking what is done and leaving the rest.",
+      "The block tip fills a green bar as a plant grows."
     ],
     "1.0.2": [
-      "The rope has an icon instead of a missing-texture cube, and the placed cord reads as rope: one lay running true down a hanging length rather than stripes."
+      "The rope has an icon instead of a missing-texture cube.",
+      "The placed cord reads as rope: one lay running true down a hanging length, not stripes."
     ],
     "1.0.0": [
-      "Hemp arrives: three strains grown from seed through their own days and nights, indica short and bushy, sativa tall and lanky, and a hybrid between them, with pollen crossing between strains in flower.",
-      "Six hemp make rope you can climb and walk through, eight in a ring make a lead, and fibre goes on to string and paper."
+      "Hemp arrives: three strains grown from seed through their own days and nights.",
+      "Indica short and bushy, sativa tall and lanky, and a hybrid between them.",
+      "Pollen crosses between strains in flower.",
+      "Six hemp make rope you can climb and walk through.",
+      "Eight in a ring make a lead, and fibre goes on to string and paper."
     ]
   }
 }
