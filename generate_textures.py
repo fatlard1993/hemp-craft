@@ -525,12 +525,14 @@ def rope_braid(pal):
 
 
 def rope_coil(pal):
-    """A rope in the hand: coiled in a hank, the way one is carried rather than hung.
+    """A rope in the hand: coiled, with the free end swept under the coil.
 
     An item icon has one job, which is to be knowable at sixteen pixels in a hotbar, and a cord
-    drawn straight down is a stick at that size. A coil is unmistakably rope: a ring of it lit on
-    the same upper left as everything else here, with the lay reading round the ring, and a tie
-    where a coil is always tied.
+    drawn straight down is a stick at that size. A coil is unmistakably rope - but a bare ring is
+    a doughnut, a ring with a bar across it is a pretzel (which is what this drew for a while),
+    and a ring with a straight tail off one side is a magnifying glass. What says rope is the cord
+    crossing under itself: the loop, and one end carried round the bottom and out, the way a coil
+    is actually laid down.
     """
     straw = tones("item/wheat.png", 6)
     lit, body = straw[-1], straw[-2]
@@ -538,31 +540,29 @@ def rope_coil(pal):
     edge = mix(straw[-4], straw[0], 0.35)
     lay = mix(straw[-4], straw[0], 0.7)
 
-    cx, cy, rx, ry = 7.5, 8.5, 5.6, 4.8
+    cx, cy, rx, ry = 7.5, 6.8, 5.6, 4.6
     sprite = blank()
     for y in range(16):
         for x in range(16):
-            # How far out of the ring's middle this pixel is, as a fraction of the ring itself.
+            # How far out of the loop's middle this pixel is, as a fraction of the loop itself.
             out = ((x + 0.5 - cx) / rx) ** 2 + ((y + 0.5 - cy) / ry) ** 2
-            if not 0.30 <= out <= 1.0:
+            if not 0.36 <= out <= 1.0:
                 continue
-            # Lit where the coil turns up and to the left, shaded where it turns away, and dark
+            # Lit where the cord turns up and to the left, shaded where it turns away, and dark
             # where it turns right under: the ramp the cord itself wears, bent round.
             toward = (cx - x) + (cy - y)
             px = lit if toward > 4 else body if toward > 0 else shade if toward > -4 else edge
-            # The lay, a mark every third pixel round the ring rather than a stripe across the
+            # The lay, a mark every third pixel round the loop rather than a stripe across the
             # sprite: enough to say twisted, too few to eat the shape at sixteen pixels.
-            if (x + y) % 3 == 0 and 0.42 <= out <= 0.92:
+            if (x + y) % 3 == 0 and 0.48 <= out <= 0.92:
                 px = lay
             put(sprite, x, y, px)
 
-    # The tie: one turn of the same cord round the coil, which is what stops it being a doughnut.
-    for y in range(5, 12):
-        out = ((6.5 - cx) / rx) ** 2 + ((y + 0.5 - cy) / ry) ** 2
-        if out > 1.0:
-            continue
-        put(sprite, 6, y, lay)
-        put(sprite, 7, y, body if y % 2 else lit)
+    # The free end, round the bottom of the coil and out to the right. Drawn last so it lies over
+    # the loop where it crosses, which is the whole of what makes it read as cord and not a ring.
+    for step, (x, y) in enumerate(((4, 10), (5, 11), (6, 12), (7, 12), (8, 13), (9, 13),
+                                   (10, 12), (11, 11))):
+        put(sprite, x, y, lay if step % 3 == 0 else lit if step % 2 else body)
     return sprite
 
 
