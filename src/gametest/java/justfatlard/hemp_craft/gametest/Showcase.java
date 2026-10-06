@@ -29,8 +29,8 @@ public final class Showcase implements FabricClientGameTest {
 
 			context.getInput().pressKey(options -> options.keyToggleGui);
 			context.runOnClient(client -> client.options.renderDistance().set(12));
-			server.runCommand("gamerule doDaylightCycle false");
-			server.runCommand("gamerule doWeatherCycle false");
+			server.runCommand("gamerule advance_time false");
+			server.runCommand("gamerule advance_weather false");
 			server.runCommand("weather clear");
 			server.runCommand("time set 1000");
 			server.runCommand("gamemode spectator @a");
