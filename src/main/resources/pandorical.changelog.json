@@ -3,6 +3,9 @@
     "Hemp as a fibre crop you grow, shape and breed: indica, sativa and the hybrid of the two, sown on farmland and cut for the fibre that makes rope, string and paper."
   ],
   "versions": {
+    "1.0.5": [
+      "Release notes rewritten to read plainly; nothing in play changes."
+    ],
     "1.0.4": [
       "The rope item is a coil with its end swept under, instead of something that read as a pretzel."
     ],
