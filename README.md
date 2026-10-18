@@ -73,8 +73,9 @@ With [block-tip](https://github.com/fatlard1993/block-tip) installed, looking at
 | 3 hemp, in a row | 2 string |
 | 8 hemp, in a ring | a lead |
 | 6 hemp, two by three | 3 rope |
+| mud and hemp | packed mud |
 
-The paper square fits the inventory's own crafting grid; the rest need a crafting table. They all unlock the first time you hold hemp.
+The paper square and the packed mud fit the inventory's own crafting grid; the rest need a crafting table. They all unlock the first time you hold hemp.
 
 **Rope** hangs from whatever is above it, one thick braided cord down the middle of the block. You walk through it and you climb it, so a coil dropped down a shaft is a way back up. It hangs the way a chain does: from a solid face or from the rope above, and it comes down when its anchor does.
 

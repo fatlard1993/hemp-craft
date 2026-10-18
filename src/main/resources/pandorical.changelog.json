@@ -3,6 +3,9 @@
     "Hemp as a fibre crop you grow, shape and breed: indica, sativa and the hybrid of the two, sown on farmland and cut for the fibre that makes rope, string and paper."
   ],
   "versions": {
+		"1.1.0": [
+			"Mud and hemp make packed mud, in the inventory's own crafting grid."
+		],
     "1.0.5": [
       "Release notes rewritten to read plainly; nothing in play changes."
     ],

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "minecraft:mud",
+    "hemp-craft-justfatlard:hemp"
+  ],
+  "result": {
+    "id": "minecraft:packed_mud"
+  }
+}
