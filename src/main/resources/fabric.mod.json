@@ -31,5 +31,12 @@
   },
   "breaks": {
     "block-tip": "<1.1.0"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.donate": "https://github.com/sponsors/fatlard1993"
+      }
+    }
   }
 }
