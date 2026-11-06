@@ -1,38 +1,41 @@
 {
-  "overview": [
-    "Hemp as a fibre crop you grow, shape and breed: indica, sativa and the hybrid of the two, sown on farmland and cut for the fibre that makes rope, string and paper."
-  ],
-  "versions": {
-    "1.1.1": [
-      "Mod Menu's Donate button leads to sponsoring the author on GitHub. Nothing in play changes."
-    ],
+	"overview": [
+		"Hemp as a fibre crop you grow, shape and breed: indica, sativa and the hybrid of the two, sown on farmland and cut for the fibre that makes rope, string and paper."
+	],
+	"versions": {
+		"1.1.2": [
+			"Its tests draw a small window unless taking pictures, which runs them faster; nothing in play changes."
+		],
+		"1.1.1": [
+			"Mod Menu's Donate button leads to sponsoring the author on GitHub. Nothing in play changes."
+		],
 		"1.1.0": [
 			"Mud and hemp make packed mud, in the inventory's own crafting grid."
 		],
-    "1.0.5": [
-      "Release notes rewritten to read plainly; nothing in play changes."
-    ],
-    "1.0.4": [
-      "The rope item is a coil with its end swept under, instead of something that read as a pretzel."
-    ],
-    "1.0.3": [
-      "A clump left to itself runs on its days of light and waits on no night.",
-      "A field lit however you like still goes to seed.",
-      "Counting nights is the business of a plant somebody raised.",
-      "Crossing two strains and taking the hybrid seed earns an advancement.",
-      "A hoe sweeps a field with Useful Hoe installed, taking what is done and leaving the rest.",
-      "The block tip fills a green bar as a plant grows."
-    ],
-    "1.0.2": [
-      "The rope has an icon instead of a missing-texture cube.",
-      "The placed cord reads as rope: one lay running true down a hanging length, not stripes."
-    ],
-    "1.0.0": [
-      "Hemp arrives: three strains grown from seed through their own days and nights.",
-      "Indica short and bushy, sativa tall and lanky, and a hybrid between them.",
-      "Pollen crosses between strains in flower.",
-      "Six hemp make rope you can climb and walk through.",
-      "Eight in a ring make a lead, and fibre goes on to string and paper."
-    ]
-  }
+		"1.0.5": [
+			"Release notes rewritten to read plainly; nothing in play changes."
+		],
+		"1.0.4": [
+			"The rope item is a coil with its end swept under, instead of something that read as a pretzel."
+		],
+		"1.0.3": [
+			"A clump left to itself runs on its days of light and waits on no night.",
+			"A field lit however you like still goes to seed.",
+			"Counting nights is the business of a plant somebody raised.",
+			"Crossing two strains and taking the hybrid seed earns an advancement.",
+			"A hoe sweeps a field with Useful Hoe installed, taking what is done and leaving the rest.",
+			"The block tip fills a green bar as a plant grows."
+		],
+		"1.0.2": [
+			"The rope has an icon instead of a missing-texture cube.",
+			"The placed cord reads as rope: one lay running true down a hanging length, not stripes."
+		],
+		"1.0.0": [
+			"Hemp arrives: three strains grown from seed through their own days and nights.",
+			"Indica short and bushy, sativa tall and lanky, and a hybrid between them.",
+			"Pollen crosses between strains in flower.",
+			"Six hemp make rope you can climb and walk through.",
+			"Eight in a ring make a lead, and fibre goes on to string and paper."
+		]
+	}
 }
