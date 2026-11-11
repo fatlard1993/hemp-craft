@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "hemp-craft-justfatlard:block/light_gray_hemp_paneling"
+  }
+}

@@ -39,6 +39,7 @@ public class Main implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		Hemp.register();
+		Paneling.register();
 
 		// Every piece is a berry bush to the client: walked through, gone at a touch. Not wheat,
 		// whose map colour is worked out from its age: a stand-in built on wheat's settings with no

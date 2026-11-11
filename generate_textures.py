@@ -872,8 +872,59 @@ def fan_leaf(pal):
     return sprite
 
 
+# Hemp paneling is the fibre pressed flat into a wall-sized block. Undyed it is an off-white: white
+# wool's body with a little of the straw in it. Its grain is short fibres lying along the panel and
+# a faint seam round its edge. Dyed, the same grain is multiplied by the dye's colour, so every
+# colour keeps the texture and white dye leaves the panel as it is.
+DYES = ("white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
+        "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black")
+
+
+def wool_body(dye):
+    """The colour a dye's wool is mostly made of: that is the dye, as the game shows it."""
+    counts = Counter(px[:3] for row in vanilla("block/%s_wool.png" % dye) for px in row if px[3])
+    return counts.most_common(1)[0][0]
+
+
+def paneling(pal):
+    rng = random.Random("hemp-paneling")
+    straw = tones("item/wheat.png", 6)
+    base = mix(wool_body("white"), straw[-1], 0.2)[:3]
+
+    # Short fibres: a run of a few pixels lying along one row, a shade lighter or darker.
+    lift = [[0] * 16 for _ in range(16)]
+    for y in range(16):
+        for _ in range(rng.randint(2, 4)):
+            start = rng.randrange(-3, 14)
+            delta = rng.choice((-7, -5, 4, 6))
+            for x in range(max(0, start), min(16, start + rng.randint(3, 7))):
+                lift[y][x] += delta
+
+    sprite = blank()
+    for y in range(16):
+        for x in range(16):
+            edge = -8 if x in (0, 15) or y in (0, 15) else 0
+            shade = lift[y][x] + edge + rng.randint(-3, 3)
+            sprite[y][x] = tuple(max(0, min(255, c + shade)) for c in base) + (255,)
+    return sprite
+
+
+def dyed_paneling(plain, dye):
+    """The plain panel with its colour multiplied by the dye's. Dividing by white's own colour
+    keeps white dye exactly the undyed panel."""
+    white = wool_body("white")
+    factor = [dye[i] / white[i] for i in range(3)]
+    return [[tuple(min(255, round(px[i] * factor[i])) for i in range(3)) + (255,) if px[3] else CLEAR
+             for px in row] for row in plain]
+
+
 if __name__ == "__main__":
     pal = Palette()
+    plain = paneling(pal)
+    write_png(os.path.join(ASSETS, "textures/block/hemp_paneling.png"), plain)
+    for dye in DYES:
+        write_png(os.path.join(ASSETS, "textures/block/%s_hemp_paneling.png" % dye),
+                  dyed_paneling(plain, wool_body(dye)))
     write_png(os.path.join(ASSETS, "textures/block/hemp_plant.png"), plant_sheet(pal))
     write_png(os.path.join(ASSETS, "textures/item/hemp.png"), hemp_bundle(pal))
     write_png(os.path.join(ASSETS, "textures/block/rope.png"), rope_braid(pal))

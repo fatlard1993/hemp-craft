@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "hemp-craft-justfatlard:hemp_paneling",
+    "minecraft:cyan_dye"
+  ],
+  "result": {
+    "id": "hemp-craft-justfatlard:cyan_hemp_paneling"
+  }
+}

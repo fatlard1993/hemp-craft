@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hemp": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hemp-craft-justfatlard:hemp"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_hemp"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hemp-craft-justfatlard:hemp_paneling",
+      "hemp-craft-justfatlard:white_hemp_paneling",
+      "hemp-craft-justfatlard:orange_hemp_paneling",
+      "hemp-craft-justfatlard:magenta_hemp_paneling",
+      "hemp-craft-justfatlard:light_blue_hemp_paneling",
+      "hemp-craft-justfatlard:yellow_hemp_paneling",
+      "hemp-craft-justfatlard:lime_hemp_paneling",
+      "hemp-craft-justfatlard:pink_hemp_paneling",
+      "hemp-craft-justfatlard:gray_hemp_paneling",
+      "hemp-craft-justfatlard:light_gray_hemp_paneling",
+      "hemp-craft-justfatlard:cyan_hemp_paneling",
+      "hemp-craft-justfatlard:purple_hemp_paneling",
+      "hemp-craft-justfatlard:blue_hemp_paneling",
+      "hemp-craft-justfatlard:brown_hemp_paneling",
+      "hemp-craft-justfatlard:green_hemp_paneling",
+      "hemp-craft-justfatlard:red_hemp_paneling",
+      "hemp-craft-justfatlard:black_hemp_paneling"
+    ]
+  }
+}
