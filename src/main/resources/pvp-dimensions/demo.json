@@ -1,0 +1,40 @@
+{
+  "demo": {
+    "name": "Hemp Craft",
+    "icon": "hemp-craft-justfatlard:hemp",
+    "about": [
+      "Hemp is a fibre crop in three strains that you grow, shape and breed, then cut for rope, string and paper.",
+      "Till the ground by the water, plant the indica and sativa seeds, hurry them along with bone meal, and turn the hemp into rope at the crafting table."
+    ]
+  },
+  "pvp_preset": 1,
+  "needs": ["hemp-craft-justfatlard"],
+  "preset": {
+    "name": "Hemp Craft",
+    "icon": "hemp-craft-justfatlard:hemp",
+    "pvp": false,
+    "game_mode": "survival",
+    "entry_kit": [
+      {"slot": 0, "item": {"id": "minecraft:iron_hoe", "count": 1}},
+      {"slot": 1, "item": {"id": "hemp-craft-justfatlard:indica_seeds", "count": 8}},
+      {"slot": 2, "item": {"id": "hemp-craft-justfatlard:sativa_seeds", "count": 8}},
+      {"slot": 3, "item": {"id": "minecraft:bone_meal", "count": 64}},
+      {"slot": 4, "item": {"id": "minecraft:water_bucket", "count": 1}},
+      {"slot": 5, "item": {"id": "minecraft:crafting_table", "count": 1}},
+      {"slot": 6, "item": {"id": "hemp-craft-justfatlard:hemp", "count": 32}},
+      {"slot": 7, "item": {"id": "hemp-craft-justfatlard:rope", "count": 16}},
+      {"slot": 8, "item": {"id": "minecraft:bread", "count": 8}},
+      {"slot": 9, "item": {"id": "minecraft:bone_meal", "count": 64}},
+      {"slot": 10, "item": {"id": "minecraft:oak_planks", "count": 32}}
+    ],
+    "respawn_kit": "entry",
+    "goal": "time",
+    "mobs": "off",
+    "life": 15,
+    "size": 3,
+    "world": "overworld",
+    "shape": "natural",
+    "biome": "minecraft:plains",
+    "weather": "clear"
+  }
+}
