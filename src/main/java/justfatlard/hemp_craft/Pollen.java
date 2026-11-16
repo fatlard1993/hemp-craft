@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -22,25 +23,58 @@ final class Pollen {
 
 	private record Shed(Strain strain, long at) {}
 
-	private static final Map<ResourceKey<Level>, Map<BlockPos, Shed>> FLOWERING = new HashMap<>();
+	/** One dimension's flowering plants, filed by chunk section so a plant only reads its neighbours. */
+	private static final class Field {
+		final Map<Long, Map<BlockPos, Shed>> sections = new HashMap<>();
+		long nextSweep;
+	}
+
+	private static final Map<ResourceKey<Level>, Field> FLOWERING = new HashMap<>();
 
 	private Pollen() {}
 
 	/** Report this plant in flower; returns the other strains flowering in range, as ordinal bits. */
 	static int shed(ServerLevel level, BlockPos pos, Strain strain) {
 		long now = level.getGameTime();
-		Map<BlockPos, Shed> here = FLOWERING.computeIfAbsent(level.dimension(), key -> new HashMap<>());
-		here.put(pos.immutable(), new Shed(strain, now));
+		Field field = FLOWERING.computeIfAbsent(level.dimension(), key -> new Field());
+		if (now >= field.nextSweep) {
+			sweep(field, now);
+			field.nextSweep = now + FRESH_TICKS;
+		}
+
+		field.sections.computeIfAbsent(SectionPos.asLong(pos), key -> new HashMap<>())
+			.put(pos.immutable(), new Shed(strain, now));
+
 		int caught = 0;
-		for (Iterator<Map.Entry<BlockPos, Shed>> it = here.entrySet().iterator(); it.hasNext();) {
-			Map.Entry<BlockPos, Shed> other = it.next();
-			if (now - other.getValue().at() > FRESH_TICKS) {
-				it.remove();
-			} else if (other.getValue().strain() != strain && other.getKey().closerThan(pos, RANGE)) {
-				caught |= 1 << other.getValue().strain().ordinal();
+		int minX = SectionPos.blockToSectionCoord(pos.getX() - RANGE), maxX = SectionPos.blockToSectionCoord(pos.getX() + RANGE);
+		int minY = SectionPos.blockToSectionCoord(pos.getY() - RANGE), maxY = SectionPos.blockToSectionCoord(pos.getY() + RANGE);
+		int minZ = SectionPos.blockToSectionCoord(pos.getZ() - RANGE), maxZ = SectionPos.blockToSectionCoord(pos.getZ() + RANGE);
+		for (int x = minX; x <= maxX; x++) {
+			for (int y = minY; y <= maxY; y++) {
+				for (int z = minZ; z <= maxZ; z++) {
+					Map<BlockPos, Shed> section = field.sections.get(SectionPos.asLong(x, y, z));
+					if (section == null) continue;
+					for (Iterator<Map.Entry<BlockPos, Shed>> it = section.entrySet().iterator(); it.hasNext();) {
+						Map.Entry<BlockPos, Shed> other = it.next();
+						if (now - other.getValue().at() > FRESH_TICKS) {
+							it.remove();
+						} else if (other.getValue().strain() != strain && other.getKey().closerThan(pos, RANGE)) {
+							caught |= 1 << other.getValue().strain().ordinal();
+						}
+					}
+				}
 			}
 		}
 		return caught;
+	}
+
+	/** Drop reports nobody nearby has renewed, so harvested and unloaded fields do not pile up. */
+	private static void sweep(Field field, long now) {
+		for (Iterator<Map<BlockPos, Shed>> sections = field.sections.values().iterator(); sections.hasNext();) {
+			Map<BlockPos, Shed> section = sections.next();
+			section.values().removeIf(shed -> now - shed.at() > FRESH_TICKS);
+			if (section.isEmpty()) sections.remove();
+		}
 	}
 
 	static void clear() {
