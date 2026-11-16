@@ -3,6 +3,9 @@
 		"Hemp as a fibre crop you grow, shape and breed: indica, sativa and the hybrid of the two, sown on farmland and cut for the fibre that makes rope, string and paper."
 	],
 	"versions": {
+		"1.1.6": [
+			"A flowering plant checks only the plants in the sections around it for pollen, not every flowering plant in the world."
+		],
 		"1.1.5": [
 			"A demo to play in PvP Dimensions' onboarding."
 		],
