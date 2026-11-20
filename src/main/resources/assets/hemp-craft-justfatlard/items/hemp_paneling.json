@@ -1,6 +1,1 @@
-{
-  "model": {
-    "type": "minecraft:model",
-    "model": "hemp-craft-justfatlard:block/hemp_paneling"
-  }
-}
+{"model":{"type":"minecraft:model","model":"hemp-craft-justfatlard:block/hemp_paneling_inventory"}}

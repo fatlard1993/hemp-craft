@@ -22,6 +22,10 @@ and nine and long airy buds; hybrid sits between. An untrimmed planting is a clu
 then a tangle of thin stems in its strain's manner that flowers small and seedy, in sprigs of pods
 rather than colas; wild hemp is that tangle, gone to seed.
 
+Hempcrete is a wall four pixels through: a post, an arm to each side it joins (reaching
+on into a wall or fence to meet its post), and an arm to each corner it joins, laid north and turned an eighth round, with a diamond post where it
+joins only corners so the diagonal runs meet without a notch. Each of its colours gets the set.
+
 A joint's item switches its look as it burns down, and while it is being smoked swaps to a
 model held to the lips: the client plays a puff as eating, and eating would otherwise hold the
 joint upright in front of the face.
@@ -692,11 +696,155 @@ def joint_models(strain):
                      "on_true": burning(True), "on_false": burning(False)}})
 
 
+# Corner to corner across a block, from its middle: the length of a diagonal arm.
+DIAGONAL = 8 * math.sqrt(2)
+
+
+# How far an arm runs past the middle so a side arm and a corner arm meet in a mitre: where a
+# face 2 pixels off the middle crosses one 2 pixels off the diagonal.
+MITRE = 2 * math.sqrt(2) - 2
+
+SIDES = ("north", "east", "south", "west")
+CORNERS = ("north_east", "south_east", "south_west", "north_west")
+JOINED = "edge|post"
+STEP = {"north": (0, -1), "east": (1, 0), "south": (0, 1), "west": (-1, 0)}
+
+
+def side_toward(dx, dz):
+    return next(s for s, step in STEP.items() if step == (dx, dz))
+
+
+def corner_toward(dx, dz):
+    return CORNERS[[(1, -1), (1, 1), (-1, 1), (-1, -1)].index((dx, dz))]
+
+
+def any_of(terms):
+    """OR of AND terms, each a dict of property to value; a term asking one property for two
+    values can't hold and is dropped, and so is one that a shorter term already covers."""
+    kept = []
+    for term in terms:
+        if term is None or term in kept:
+            continue
+        kept.append(term)
+    return [t for t in kept if not any(o is not t and o.items() <= t.items() for o in kept)]
+
+
+def both(a, b):
+    out = dict(a)
+    for key, value in b.items():
+        if out.get(key, value) != value:
+            return None
+        out[key] = value
+    return out
+
+
+def quarter_shown(quarter):
+    """When the post quarter toward corner (sx, sz) stands, as OR-of-AND terms.
+
+    It is left out only where it would stand proud of a corner arm: a side arm opposite it bending
+    into the corner arm beside it, with neither its own corner arm nor the two side arms of an L
+    (whose outer corner it is) wanting it there. And it only stands with a side arm, or on a lone
+    piece; a block joined only at corners stands on the diamond post instead."""
+    sx, sz = quarter
+    own = corner_toward(sx, sz)
+    across_x, across_z = side_toward(-sx, 0), side_toward(0, -sz)
+    bend_x, bend_z = corner_toward(sx, -sz), corner_toward(-sx, sz)
+    on, off = (lambda s: {s: JOINED}), (lambda s: {s: "none"})
+    yes, no = (lambda c: {c: "true"}), (lambda c: {c: "false"})
+    wanted = [yes(own), both(on(across_x), on(across_z)),
+              both(off(across_x), off(across_z)), both(off(across_x), no(bend_z)),
+              both(no(bend_x), off(across_z)), both(no(bend_x), no(bend_z))]
+    lone = dict({s: "none" for s in SIDES}, **{c: "false" for c in CORNERS})
+    return any_of([both(on(side), term) for side in SIDES for term in wanted] + [lone])
+
+
+def hempcrete_parts(name):
+    no_sides = {s: "none" for s in SIDES}
+    parts = [{"when": {"OR": [dict(no_sides, **{c: "true"}) for c in CORNERS]},
+              "apply": ref(name + "_post_diagonal")}]
+    for turn_by, (side, corner) in enumerate(zip(SIDES, CORNERS)):
+        quarter = [(1, -1), (1, 1), (-1, 1), (-1, -1)][turn_by]
+        opposite = CORNERS[(turn_by + 2) % 4]
+        parts.append({"when": {"OR": quarter_shown(quarter)}, "apply": ref(name + "_post_quarter", 90 * turn_by)})
+        parts.append({"when": {side: JOINED}, "apply": ref(name + "_side", 90 * turn_by)})
+        parts.append({"when": {side: "post"}, "apply": ref(name + "_reach", 90 * turn_by)})
+        parts.append({"when": {corner: "true", opposite: "true"}, "apply": ref(name + "_diagonal", 90 * turn_by)})
+        parts.append({"when": {corner: "true", opposite: "false"}, "apply": ref(name + "_diagonal_long", 90 * turn_by)})
+    return parts
+
+
+def hempcrete_models(name):
+    texture = "%s:block/%s" % (NAMESPACE, name)
+
+    def model_of(elements):
+        return {"parent": "minecraft:block/block", "textures": {"face": texture, "particle": texture},
+                "elements": elements}
+
+    def faces(*sides, cull=()):
+        out = {}
+        for side in sides:
+            out[side] = {"texture": "#face"}
+            if side in cull:
+                out[side]["cullface"] = side
+        return out
+
+    every = ("north", "east", "south", "west", "up", "down")
+    post = {"from": [6, 0, 6], "to": [10, 16, 10], "faces": faces(*every, cull=("up", "down"))}
+    write("models/block/%s_post_diagonal.json" % name, model_of([dict(
+        post, rotation={"origin": [8, 8, 8], "x": 0, "y": 45, "z": 0},
+        faces=faces(*every))]))
+    # The post in quarters, the north-east one turned for the rest, so a quarter that would stand
+    # proud of a corner arm can be left out (see hempcrete_parts).
+    write("models/block/%s_post_quarter.json" % name, model_of([
+        {"from": [8, 0, 6], "to": [10, 16, 8], "faces": faces(*every, cull=("up", "down"))}]))
+    # An arm runs MITRE past the middle, and a corner arm as far back, so where a side arm bends
+    # into a corner arm their outer faces meet in a point and the joint has no step.
+    write("models/block/%s_side.json" % name, model_of([
+        {"from": [6, 0, 0], "to": [10, 16, r(8 + MITRE)],
+         "faces": faces("north", "east", "west", "up", "down", cull=("north", "up", "down"))}]))
+    # On past the edge to meet the post of a wall or fence beside it, which stands 6 pixels in. Its
+    # faces are given the uv they would take in the neighbour's block.
+    write("models/block/%s_reach.json" % name, model_of([
+        {"from": [6, 0, -6], "to": [10, 16, 0],
+         "faces": {"east": {"uv": [0, 0, 6, 16], "texture": "#face"},
+                   "west": {"uv": [10, 0, 16, 16], "texture": "#face"},
+                   "up": {"uv": [6, 10, 10, 16], "texture": "#face", "cullface": "up"},
+                   "down": {"uv": [6, 0, 10, 6], "texture": "#face", "cullface": "down"}}}]))
+    # Turned, an element's faces can't take their uv from where they sit, so it is given: the
+    # long sides put the face's seam at the corner, where the next piece's arm meets this one. The
+    # long arm is the one that runs back past the middle, for when no arm carries on opposite it:
+    # two that did would overlap face on face and flicker.
+    for model, back in (("diagonal", 0), ("diagonal_long", MITRE)):
+        length = r(DIAGONAL + back)
+        write("models/block/%s_%s.json" % (name, model), model_of([
+            {"from": [6, 0, r(8 - DIAGONAL)], "to": [10, 16, r(8 + back)],
+             "rotation": {"origin": [8, 8, 8], "x": 0, "y": -45, "z": 0},
+             "faces": {"north": {"uv": [6, 0, 10, 16], "texture": "#face"},
+                       "west": {"uv": [0, 0, length, 16], "texture": "#face"},
+                       "east": {"uv": [r(16 - length), 0, 16, 16], "texture": "#face"},
+                       "up": {"uv": [6, 0, 10, length], "texture": "#face"},
+                       "down": {"uv": [6, 0, 10, length], "texture": "#face"}}}]))
+    write("models/block/%s_inventory.json" % name, model_of([
+        {"from": [0, 0, 6], "to": [16, 16, 10], "faces": faces(*every)}]))
+    parts = hempcrete_parts(name)
+    write("blockstates/%s.json" % name, {"multipart": parts})
+    write("items/%s.json" % name,
+          {"model": {"type": "minecraft:model", "model": "%s:block/%s_inventory" % (NAMESPACE, name)}})
+
+
+# Ids keep the name it shipped under, paneling; see Hempcrete.java.
+HEMPCRETE = ["hemp_paneling"] + ["%s_hemp_paneling" % dye for dye in art.DYES]
+
+# Drawn by hand, not here: left alone when the directory is cleared.
+HANDMADE = {"rope.json"}
+
+
 def main():
     models_dir = os.path.join(ASSETS, "models/block")
     if os.path.isdir(models_dir):
         for old in os.listdir(models_dir):
-            os.remove(os.path.join(models_dir, old))
+            if old not in HANDMADE:
+                os.remove(os.path.join(models_dir, old))
     count = 0
     elements = 0
 
@@ -738,7 +886,10 @@ def main():
     write("blockstates/wild_hemp.json", wild_multipart())
     for s in STRAINS:
         joint_models(s)
-    print("wrote %d models (%d elements), 5 blockstates and the joints' items" % (count, elements))
+    for name in HEMPCRETE:
+        hempcrete_models(name)
+    print("wrote %d models (%d elements), 5 blockstates and the joints' items, and %d colours of hempcrete"
+          % (count, elements, len(HEMPCRETE)))
 
 
 if __name__ == "__main__":

@@ -2,13 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": "hemp-craft-justfatlard:hemp"
+    "#": "hemp-craft-justfatlard:hemp",
+    "C": "minecraft:clay_ball"
   },
   "pattern": [
-    "###",
-    "###"
+    "#C#",
+    "#C#"
   ],
   "result": {
-    "id": "hemp-craft-justfatlard:hemp_paneling"
+    "id": "hemp-craft-justfatlard:hemp_paneling",
+    "count": 6
   }
 }

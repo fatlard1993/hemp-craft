@@ -76,6 +76,19 @@ readiness off `isValidBonemealTarget`, which `HempPlant.canFeed` makes false exa
 ripe or a clump has gone to seed. So the hoe harvests on the same terms bone meal stops working on,
 and a clump at its most fibre it leaves standing. The tag is inert when useful-hoe is absent.
 
+Hempcrete (`HempcreteBlock`) carries an arm for each side (none, to the edge, or on six pixels into a
+wall or fence to meet its post) and a flag for each corner it joins, and the same script writes its
+parts: a post in quarters, a side arm and the reach past it, and a corner arm turned an eighth
+round, with a diamond post for a block joined only at its corners. Where a side arm bends into a
+corner arm, one post quarter would stand proud of the corner arm's face, so the blockstate leaves it
+out, and both arms run on past the middle to meet in a mitre; `quarter_shown` in the script has the
+rule. That is 1296 states a colour but 256 distinct
+shapes, and Pandorical sends shapes by distinct shape, so the states cost next to nothing to sync. Hitboxes can't turn, so a corner arm's shape is a
+staircase of boxes; Pandorical sends the server's shapes to the client, so both agree. A corner
+neighbour gets no shape update when a block changes, so placing or removing hempcrete tells its four
+corners itself. The script clears `models/block` before writing; `rope.json` is drawn by hand and
+listed in `HANDMADE` so it survives.
+
 `generate_textures.py` draws the 32x32 sheet those parts are cut from, and owns its layout, which the
 model script imports. It also draws the item sprites and the icon, every colour read out of the
 vanilla jar. Both scripts are deterministic; re-run them after a Minecraft version bump, textures
