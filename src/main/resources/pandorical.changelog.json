@@ -3,6 +3,9 @@
 		"Hemp as a fibre crop you grow, shape and breed: indica, sativa and the hybrid of the two, sown on farmland and cut for the fibre that makes rope, string and paper."
 	],
 	"versions": {
+		"1.1.7": [
+			"Hemp paneling is now hempcrete: four hemp and two clay make six of a thin wall that joins corner to corner and stands against walls and fences."
+		],
 		"1.1.6": [
 			"A flowering plant checks only the plants in the sections around it for pollen, not every flowering plant in the world."
 		],
